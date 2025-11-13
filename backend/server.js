@@ -10,7 +10,16 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors()); // allows requests from React frontend or Postman
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://ozonemart-f.vercel.app"
+        ],
+        methods: "GET,POST,PUT,DELETE,PATCH",
+        credentials: true
+    })
+);
 app.use(express.json()); // parse JSON request body
 
 
