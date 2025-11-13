@@ -1,16 +1,17 @@
 {
     "version": 2,
-    "name": "ozonemart-frontend",
     "builds": [
         {
             "src": "package.json",
             "use": "@vercel/static-build"
         }
     ],
-    "routes": [
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "rewrites": [
         {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/(.*)",
+            "destination": "/index.html"
         }
     ]
 }
