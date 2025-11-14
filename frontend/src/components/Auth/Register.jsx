@@ -575,7 +575,7 @@ export default function Register() {
                                 value={authPassword} onChange={(e) => setAuthPassword(e.target.value)}
                                 required placeholder="••••••••"
                             />
-                            <ElegantButton type="submit" isLoading={isLoading}>Login</ElegantButton>
+                            <FormButton type="submit" isLoading={isLoading}>Login</FormButton>
 
                             <div className="flex justify-between items-center text-sm">
                                 <button type="button" onClick={handleOtpLoginRequest} className="font-medium text-indigo-600 hover:text-indigo-500">
@@ -620,7 +620,7 @@ export default function Register() {
                                 value={authPassword} onChange={(e) => setAuthPassword(e.target.value)}
                                 required placeholder="••••••••"
                             />
-                            <ElegantButton type="submit" isLoading={isLoading}>Create Account</ElegantButton>
+                            <FormButton type="submit" isLoading={isLoading}>Create Account</FormButton>
 
                             <div className="text-center text-gray-600">
                                 Already have an account?{' '}
@@ -811,12 +811,12 @@ export default function Register() {
                         <h2 className="text-3xl font-bold text-gray-800">Welcome to your Dashboard!</h2>
                         <p className="text-lg text-gray-600 mt-3">Your account is fully active and ready to go.</p>
                         <div className="mt-6">
-                            <ElegantButton
+                            <FormButton
                                 onClick={() => navigate('/')}
                                 variant="primary"
                             >
                                 Go to Dashboard
-                            </ElegantButton>
+                            </FormButton>
                         </div>
                     </div>
                 );

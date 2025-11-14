@@ -1,7 +1,9 @@
 // src/components/Layout/Sidebar.jsx
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+    LayoutDashboard, Users, Settings, ChevronLeft, ChevronRight, Package, PlusSquare,
+} from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
     return (
@@ -37,6 +39,27 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                     >
                         <LayoutDashboard size={20} />
                         {!isCollapsed && <span>Dashboard</span>}
+                    </NavLink>
+
+                    <NavLink
+                        to="/categories"
+                        className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2 rounded-lg transition ${isActive ? "bg-indigo-600" : "hover:bg-gray-800"
+                            }`
+                        }
+                    >
+                        <Settings size={20} />
+                        {!isCollapsed && <span>Category</span>}
+                    </NavLink>
+                    <NavLink
+                        to="/products"
+                        className={({ isActive }) =>
+                            `flex items-center gap-3 px-4 py-2 rounded-lg transition ${isActive ? "bg-indigo-600" : "hover:bg-gray-800"
+                            }`
+                        }
+                    >
+                        <Settings size={20} />
+                        {!isCollapsed && <span>Product</span>}
                     </NavLink>
 
                     <NavLink
