@@ -153,7 +153,7 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        const result = await makeApiCall('/auth/register/start', 'POST', {
+        const result = await makeApiCall('/api/auth/register', 'POST', {
             email: authEmail, password: authPassword, fullName: authFullName, mobileNumber: authMobile,
         });
         if (result.success) {
@@ -165,7 +165,7 @@ export default function Register() {
 
     const handleOtpVerify = async (e) => {
         e.preventDefault();
-        const result = await makeApiCall('/api/auth/register/verify', 'POST', {
+        const result = await makeApiCall('/api/auth/verify-email', 'POST', {
             email: authEmail, otp: authOtp,
         });
         if (result.success && result.data.token) {
@@ -636,22 +636,33 @@ export default function Register() {
                         <form onSubmit={handleOtpVerify} className="space-y-6">
                             <h2 className="text-3xl font-bold text-gray-900">Check your email.</h2>
                             <p className="text-gray-600">We sent a 6-digit code to <span className="font-medium text-gray-800">{authEmail}</span>.</p>
-                            <ElegantButton
+                            <ElegantInput
                                 id="otp_code" label="Enter 6-Digit OTP" name="otp"
                                 value={authOtp} onChange={(e) => setAuthOtp(e.target.value)}
                                 required placeholder="123456" maxLength={6}
                             />
                             <ElegantButton type="submit" isLoading={isLoading}>Verify Email</ElegantButton>
 
-                            <div className="text-center text-gray-600">
+                            {/* <div className="text-center text-gray-600">
                                 Didn't get a code?{' '}
                                 <button
                                     type="button"
                                     onClick={() => { }} // Add resend logic here
                                     className="font-medium text-indigo-600 hover:text-indigo-500"
                                 >
-                                    Resend
+                                    Back to Login
                                 </button>
+                            </div> */}
+
+                            <div className="text-center text-gray-600">
+                                Want to login instead?{' '}
+                                <a
+                                    type="button"
+                                    href='/login'
+                                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                                >
+                                    Back to Login
+                                </a>
                             </div>
                         </form>
                     )}

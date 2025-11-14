@@ -133,6 +133,7 @@ const registerStart = async (req, res) => {
  */
 const verifyEmail = async (req, res) => {
     const { email, otp } = req.body;
+    console.log("Verifying OTP for:", email, otp);
 
     if (!email || !otp) {
         return res.status(400).json({ message: 'Email and OTP are required.' });
@@ -141,6 +142,7 @@ const verifyEmail = async (req, res) => {
     try {
         // 1. Find seller by email
         const seller = await Seller.findOne({ email });
+        console.log("Verifying OTP for seller:", seller);
 
         if (!seller) {
             return res.status(404).json({ message: 'Seller not found.' });

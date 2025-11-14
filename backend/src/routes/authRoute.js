@@ -19,7 +19,7 @@ router.post('/register', registerStart);
  * @access  Public
  */
 router.post('/verify-email', [
-    check('email', 'Please include a valid email').isEmail().normalizeEmail(),
+    check('email', 'Please include a valid email').isEmail(),
     check('otp', 'OTP is required').not().isEmpty().trim(),
 ], verifyEmail);
 
