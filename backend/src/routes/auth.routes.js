@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerStart, verifyEmail, updateBusinessInfo, updateBankDetails, updateDocuments, updateStoreDetails, loginWithPassword, loginOtpRequest, loginOtpVerify } = require('../controllers/authController');
+const { registerStart, verifyEmail, updateBusinessInfo, updateBankDetails, updateDocuments, updateStoreDetails, loginWithPassword, loginOtpRequest, loginOtpVerify, getCheckAuth, getSellerFull } = require('../controllers/auth.controller');
 const { check } = require('express-validator');
 const { authMiddleware } = require('../middlewares/auth.middleware');
 const { upload } = require('../config/cloudinary');
@@ -64,5 +64,9 @@ router.post('/login/password', loginWithPassword);
 router.post('/login/otp-request', loginOtpRequest);
 
 router.post('/login/otp-verify', loginOtpVerify);
+
+router.get('/check-auth', authMiddleware, getCheckAuth);
+
+router.post('/get-user', authMiddleware, getSellerFull)
 
 module.exports = router;

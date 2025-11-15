@@ -10,6 +10,8 @@ import CategoryForm from "./pages/Category/CategoryForm";
 import ProductEditor from "./pages/Product/ProductEditor";
 import ProductView from "./pages/Product/ProductView";
 import ProductList from "./pages/Product/ProductList";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import SellerProfile from "./pages/Home/SellerProfile";
 
 function App() {
   return (
@@ -17,11 +19,13 @@ function App() {
       <Routes>
         {/* Auth Routes */}
         <Route path="/login" element={<Register />} />
-        {/* <Route path="/verify-otp" element={<VerifyOtp />} /> */}
-        {/* <Route path="/login" element={<LoginPage />} /> */}
 
         {/* Admin Routes (with layout) */}
-        <Route path="/" element={<AdminLayout />} >
+        <Route path="/" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        } >
           <Route index element={<Dashboard />} />
           {/* <Route path="sellers" element={<Sellers />} /> */}
           <Route path="categories" element={<CategoryManager />} />
@@ -33,7 +37,7 @@ function App() {
           <Route path="products/new" element={<ProductEditor />} />
           <Route path="products/edit/:id" element={<ProductEditor />} /> {/* <-- NEW EDIT ROUTE */}
           <Route path="products/view/:id" element={<ProductView />} /> {/* <-- NEW VIEW ROUTE */}
-
+          <Route path="profile" element={<SellerProfile />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

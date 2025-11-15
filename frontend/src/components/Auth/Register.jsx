@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 import axios from "axios";
 import MySVG from '../../assets/sellerlogin.svg'; // adjust path as needed
 import { useNavigate } from 'react-router-dom';
+import Step3Form from '../Registration/Step3Form';
 
 // --- Constants ---
 const API_BASE_URL = '/api/v1'; // Base URL for all API calls
@@ -145,9 +146,25 @@ export default function Register() {
             localStorage.setItem("sellerDetails", JSON.stringify(sellerDetails));
 
             setAuthToken(token);
-            setFormData(prev => ({ ...prev, ...sellerDetails, email: authEmail })); // Pre-fill form
-            setCurrentStep(statusToStep(sellerStatus));
             setIsLoggedIn(true);
+
+            // If active → skip steps → go to dashboard
+            if (sellerStatus === "active") {
+                console.log("🚀 Seller is active → Redirecting to /");
+                navigate("/", { replace: true });
+                return; // prevent further step logic
+            }
+
+            // Otherwise continue onboarding
+            console.log("📝 Seller not active → going to steps");
+            setFormData(prev => ({
+                ...prev,
+                ...sellerDetails,
+                email: authEmail
+            }));
+
+
+            setCurrentStep(statusToStep(sellerStatus));
         }
     };
 
@@ -209,6 +226,10 @@ export default function Register() {
     };
 
     const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("sellerStatus");
+        localStorage.removeItem("sellerDetails");
+
         // In a real app, clear localStorage
         setAuthToken(null);
         setIsLoggedIn(false);
@@ -896,6 +917,7 @@ const Stepper = ({ currentStep }) => {
     );
 };
 
+
 const LoadingSpinner = () => (
     <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75 z-10">
         <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
@@ -943,57 +965,57 @@ const OtpForm = ({ otp, setOtp, onSubmit, email, isLoading }) => (
 );
 
 // --- Step 3: Bank ---
-const Step3Form = ({ data, handleChange, handleFileChange, onSubmit, isLoading }) => (
-    <form onSubmit={onSubmit}>
-        <FormTitle
-            title="Step 3: Bank Details"
-            subtitle="Where we'll send your payments."
-        />
-        <FormSection>
-            <div className="md:col-span-2">
-                <FormInput
-                    id="accountHolderName" label="Account Holder Name" name="accountHolderName"
-                    value={data.accountHolderName} onChange={handleChange} required
-                />
-            </div>
-            <FormInput
-                id="bankName" label="Bank Name" name="bankName"
-                value={data.bankName} onChange={handleChange} required
-            />
-            <FormInput
-                id="branchName" label="Branch Name" name="branchName"
-                value={data.branchName} onChange={handleChange} required
-            />
-            <FormInput
-                id="accountNumber" label="Account Number" name="accountNumber"
-                value={data.accountNumber} onChange={handleChange} required
-            />
-            <FormInput
-                id="ifscCode" label="IFSC Code" name="ifscCode"
-                value={data.ifscCode} onChange={handleChange} required
-            />
-            <div className="md:col-span-3">
-                <label htmlFor="cancelledCheque" className="block text-sm font-medium text-gray-700 mb-1">
-                    Upload Cancelled Cheque <span className="text-red-500">*</span>
-                </label>
-                <input
-                    id="cancelledCheque" name="cancelledCheque" type="file"
-                    onChange={handleFileChange} required
-                    accept="image/png, image/jpeg, application/pdf"
-                    className="w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-md file:border-0
-            file:font-semibold file:bg-indigo-50 file:text-indigo-700
-            hover:file:bg-indigo-100"
-                />
-                {data.cancelledCheque && <p className="text-sm text-gray-600 mt-2">Selected: {data.cancelledCheque.name}</p>}
-            </div>
-        </FormSection>
-        <div className="mt-10">
-            <FormButton type="submit" isLoading={isLoading}>Save & Continue to Step 4</FormButton>
-        </div>
-    </form>
-);
+// const Step3Form = ({ data, handleChange, handleFileChange, onSubmit, isLoading }) => (
+//     <form onSubmit={onSubmit}>
+//         <FormTitle
+//             title="Step 3: Bank Details"
+//             subtitle="Where we'll send your payments."
+//         />
+//         <FormSection>
+//             <div className="md:col-span-2">
+//                 <FormInput
+//                     id="accountHolderName" label="Account Holder Name" name="accountHolderName"
+//                     value={data.accountHolderName} onChange={handleChange} required
+//                 />
+//             </div>
+//             <FormInput
+//                 id="bankName" label="Bank Name" name="bankName"
+//                 value={data.bankName} onChange={handleChange} required
+//             />
+//             <FormInput
+//                 id="branchName" label="Branch Name" name="branchName"
+//                 value={data.branchName} onChange={handleChange} required
+//             />
+//             <FormInput
+//                 id="accountNumber" label="Account Number" name="accountNumber"
+//                 value={data.accountNumber} onChange={handleChange} required
+//             />
+//             <FormInput
+//                 id="ifscCode" label="IFSC Code" name="ifscCode"
+//                 value={data.ifscCode} onChange={handleChange} required
+//             />
+//             <div className="md:col-span-3">
+//                 <label htmlFor="cancelledCheque" className="block text-sm font-medium text-gray-700 mb-1">
+//                     Upload Cancelled Cheque <span className="text-red-500">*</span>
+//                 </label>
+//                 <input
+//                     id="cancelledCheque" name="cancelledCheque" type="file"
+//                     onChange={handleFileChange} required
+//                     accept="image/png, image/jpeg, application/pdf"
+//                     className="w-full text-sm text-gray-500
+//             file:mr-4 file:py-2 file:px-4
+//             file:rounded-md file:border-0
+//             file:font-semibold file:bg-indigo-50 file:text-indigo-700
+//             hover:file:bg-indigo-100"
+//                 />
+//                 {data.cancelledCheque && <p className="text-sm text-gray-600 mt-2">Selected: {data.cancelledCheque.name}</p>}
+//             </div>
+//         </FormSection>
+//         <div className="mt-10">
+//             <FormButton type="submit" isLoading={isLoading}>Save & Continue to Step 4</FormButton>
+//         </div>
+//     </form>
+// );
 
 // --- Step 4: Documents ---
 const Step4Form = ({ docs, handleAddDocument, handleDocChange, removeDoc, onSubmit, isLoading }) => (

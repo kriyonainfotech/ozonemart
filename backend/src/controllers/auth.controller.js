@@ -1,4 +1,4 @@
-const Seller = require('../models/sellerModel.js');
+const Seller = require('../models/seller.model.js');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const crypto = require('crypto');
@@ -455,7 +455,7 @@ const updateStoreDetails = async (req, res) => {
 
         // 5. FINAL STEP: Move seller to 'pending-admin-approval'
         // Their registration is now complete from their side.
-        seller.status = 'pending-admin-approval';
+        seller.status = 'active';
 
         // 6. Save the updated seller document
         await seller.save();
@@ -647,6 +647,53 @@ const loginOtpVerify = async (req, res) => {
 };
 
 
+const getCheckAuth = async (req, res) => {
+    try {
+        const seller = await Seller.findById(req.seller.id).select('-password -otpHash -otpExpiry');
+        if (!seller) {
+            return res.status(404).json({ message: 'Seller not found.' });
+        }
+        res.status(200).json({
+            success: true,
+            seller
+        });
+    }
+    catch (error) {
+        console.error('Check Auth Error:', error.message);
+        res.status(500).json({ message: 'Server error during authentication check.' });
+    }
+};
+
+// GET /api/v1/seller/:id  or  GET /api/v1/seller?email=...  or authenticated GET /api/v1/seller/me
+const getSellerFull = async (req, res) => {
+    try {
+        console.log('getSellerFull called. body:', req.body, 'query:', req.query, 'authSeller:', req.seller);
+
+        const sellerId = req.seller.id
+        const seller = await Seller.findById(sellerId);
+
+        if (!seller) {
+            console.warn('Seller not found for provided identifier.');
+            return res.status(404).json({ message: 'Seller not found.' });
+        }
+
+        // Remove extremely sensitive fields before sending
+        delete seller.password;
+        delete seller.otpHash;
+        delete seller.otpExpiry;
+
+        console.log('Seller fetched successfully:', { id: seller._id, email: seller.email, status: seller.status });
+
+        res.status(200).json({
+            success: true,
+            seller
+        });
+    } catch (error) {
+        console.error('Get Seller Full Error:', error);
+        res.status(500).json({ message: 'Server error fetching seller.' });
+    }
+};
+
 module.exports = {
     registerStart,
     verifyEmail,
@@ -656,5 +703,7 @@ module.exports = {
     updateStoreDetails,
     loginWithPassword,
     loginOtpRequest,
-    loginOtpVerify
+    loginOtpVerify,
+    getCheckAuth,
+    getSellerFull
 };

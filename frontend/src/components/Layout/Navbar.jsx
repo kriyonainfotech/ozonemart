@@ -20,12 +20,12 @@ const Navbar = ({ onLogout }) => {
                 <h1 className="text-xl font-semibold text-gray-800">Ozone Mart</h1>
 
                 <div className="flex items-center gap-4">
-                    <button className="relative">
+                    {/* <button className="relative">
                         <Bell size={20} className="text-gray-600 hover:text-indigo-600" />
                         <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">
                             3
                         </span>
-                    </button>
+                    </button> */}
 
                     <div className="flex items-center gap-2">
                         <User size={20} className="text-gray-600" />

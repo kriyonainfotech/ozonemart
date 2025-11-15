@@ -2,7 +2,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-    LayoutDashboard, Users, Settings, ChevronLeft, ChevronRight, Package, PlusSquare,
+    LayoutDashboard,
+    Tag,            // For categories
+    Package,        // For products
+    User,           // For profile
+    ChevronLeft,
+    ChevronRight,
 } from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
@@ -13,7 +18,6 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
         >
             <div className="p-4 flex flex-col space-y-4">
                 <div className="flex items-center justify-between">
-
                     <div
                         className={`text-center font-bold text-indigo-400 text-lg ${isCollapsed ? "hidden" : "block"
                             }`}
@@ -28,6 +32,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                         {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
                     </button>
                 </div>
+
                 <nav className="flex flex-col space-y-2 mt-4">
                     <NavLink
                         to="/"
@@ -48,9 +53,10 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                             }`
                         }
                     >
-                        <Settings size={20} />
+                        <Tag size={20} />
                         {!isCollapsed && <span>Category</span>}
                     </NavLink>
+
                     <NavLink
                         to="/products"
                         className={({ isActive }) =>
@@ -58,19 +64,19 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }) => {
                             }`
                         }
                     >
-                        <Settings size={20} />
+                        <Package size={20} />
                         {!isCollapsed && <span>Product</span>}
                     </NavLink>
 
                     <NavLink
-                        to="/settings"
+                        to="/profile"
                         className={({ isActive }) =>
                             `flex items-center gap-3 px-4 py-2 rounded-lg transition ${isActive ? "bg-indigo-600" : "hover:bg-gray-800"
                             }`
                         }
                     >
-                        <Settings size={20} />
-                        {!isCollapsed && <span>Settings</span>}
+                        <User size={20} />
+                        {!isCollapsed && <span>Profile</span>}
                     </NavLink>
                 </nav>
             </div>
