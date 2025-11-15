@@ -8,10 +8,10 @@ export default function ProtectedRoute({ children }) {
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
-        console.log("🔐 ProtectedRoute mounted... Checking auth...");
+        // console.log("🔐 ProtectedRoute mounted... Checking auth...");
 
         const token = localStorage.getItem("token");
-        console.log("📦 LocalStorage token:", token);
+        // console.log("📦 LocalStorage token:", token);
 
         if (!token) {
             console.log("❌ No token found → user NOT authenticated");
@@ -27,7 +27,7 @@ export default function ProtectedRoute({ children }) {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
-                console.log("✅ Backend verification success:", res.data);
+                // console.log("✅ Backend verification success:", res.data);
                 setIsValid(true);
             })
             .catch((err) => {
@@ -37,7 +37,7 @@ export default function ProtectedRoute({ children }) {
                 setIsValid(false);
             })
             .finally(() => {
-                console.log("⏳ Verification completed. Loading false.");
+                // console.log("⏳ Verification completed. Loading false.");
                 setLoading(false);
             });
     }, []);
