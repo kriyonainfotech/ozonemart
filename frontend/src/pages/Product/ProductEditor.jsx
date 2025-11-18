@@ -376,8 +376,10 @@ const ProductEditor = () => {
     return (
         <form onSubmit={handleSubmit} className="font-sans">
             {/* --- Page Header --- */}
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+
+                {/* Left Section */}
+                <div className="flex items-center gap-3">
                     <button
                         type="button"
                         onClick={() => navigate('/products')}
@@ -386,20 +388,35 @@ const ProductEditor = () => {
                     >
                         <ArrowLeft size={20} className="text-gray-700" />
                     </button>
-                    <h1 className="text-3xl font-bold text-gray-800">
+
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
                         {isEditing ? 'Edit Product' : 'Create New Product'}
                     </h1>
                 </div>
-                <div className="flex gap-3">
-                    <ElegantButton type="button" variant="secondary" className="w-auto bg-gray-200 text-gray-800 hover:bg-gray-300">
+
+                {/* Right Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+
+                    <ElegantButton
+                        type="button"
+                        variant="secondary"
+                        className="w-full sm:w-auto bg-gray-200 text-gray-800 hover:bg-gray-300"
+                    >
                         Save as Draft
                     </ElegantButton>
-                    <ElegantButton type="submit" isLoading={isLoading} className="w-auto">
+
+                    <ElegantButton
+                        type="submit"
+                        isLoading={isLoading}
+                        className="w-full sm:w-auto"
+                    >
                         <Save size={18} className="mr-2" />
                         {isEditing ? 'Save Changes' : 'Publish Product'}
                     </ElegantButton>
+
                 </div>
             </div>
+
 
             {/* --- Error Message --- */}
             {error && <ErrorMessage message={error} onDismiss={() => setError(null)} />}

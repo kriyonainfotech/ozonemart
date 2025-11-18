@@ -199,9 +199,11 @@ const CategoryForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="font-sans">
-            {/* --- Page Header --- */}
-            <div className="flex justify-between items-center mb-6">
-                <div className="flex items-center gap-4">
+            {/* --- Page Header (Responsive) --- */}
+            <div className="flex flex-col md:flex-row justify-between md:items-center mb-6 gap-4 md:gap-0">
+
+                {/* Left Section */}
+                <div className="flex items-center gap-3">
                     <button
                         type="button"
                         onClick={() => navigate('/categories')}
@@ -210,25 +212,30 @@ const CategoryForm = () => {
                     >
                         <ArrowLeft size={20} className="text-gray-700" />
                     </button>
-                    <h1 className="text-3xl font-bold text-gray-800">
+
+                    <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
                         {isEditing ? 'Edit Category' : 'Create New Category'}
                     </h1>
                 </div>
-                <div className="flex gap-4">
+
+                {/* Right Section */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full md:w-auto">
                     <ElegantButton
                         type="button"
                         variant="secondary"
                         onClick={() => navigate('/categories')}
-                        className="w-auto bg-gray-200 text-gray-800 hover:bg-gray-300"
+                        className="w-full sm:w-auto bg-gray-200 text-gray-800 hover:bg-gray-300"
                     >
                         Cancel
                     </ElegantButton>
-                    <ElegantButton type="submit" isLoading={isLoading} className="w-auto">
+
+                    <ElegantButton type="submit" isLoading={isLoading} className="w-full sm:w-auto">
                         <Save size={18} className="mr-2" />
                         {isEditing ? 'Save Changes' : 'Create Category'}
                     </ElegantButton>
                 </div>
             </div>
+
 
             {/* --- NEW: Error Message --- */}
             {error && <ErrorMessage message={error} onDismiss={() => setError(null)} />}

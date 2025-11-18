@@ -133,16 +133,24 @@ const ProductList = () => {
     return (
         <div className="font-sans">
             {/* --- Page Header --- */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">Product Management</h1>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
 
-                <div className="w-auto">
-                    <ElegantButton onClick={() => navigate('/products/new')} className="w-auto">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    Product Management
+                </h1>
+
+                <div className="w-full sm:w-auto">
+                    <ElegantButton
+                        onClick={() => navigate('/products/new')}
+                        className="w-full sm:w-auto"
+                    >
                         <Plus size={20} className="mr-2" />
                         Create Product
                     </ElegantButton>
                 </div>
+
             </div>
+
 
             {/* --- Search & Filter Bar --- */}
             <div className="mb-4">
